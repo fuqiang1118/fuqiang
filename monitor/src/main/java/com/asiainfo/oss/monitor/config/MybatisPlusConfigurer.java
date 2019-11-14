@@ -9,18 +9,18 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * @program: hn_monitor
- * @description: MybatisPlusÅäÖÃÀà
+ * @description: MybatisPlusé…ç½®ç±»
  * @author: fuqiang
  * @date: 2019-11-12 10:11
  **/
 @Configuration
-@MapperScan("com.asiainfo.oss.monitor.dao")
+@MapperScan("com.asiainfo.oss.monitor.mapper")
 public class MybatisPlusConfigurer {
 
     /**
-     * SequenceÖ÷¼ü×ÔÔö
+     * Sequenceä¸»é”®è‡ªå¢
      *
-     * @return ·µ»Øoracle×ÔÔöÀà
+     * @return è¿”å›oracleè‡ªå¢ç±»
      * @author fuqiang
      * @date 2019/11/12
      */
@@ -30,7 +30,7 @@ public class MybatisPlusConfigurer {
     }
 
     /**
-     * ·ÖÒ³²å¼ş
+     * åˆ†é¡µæ’ä»¶
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {

@@ -38,7 +38,7 @@ public class PageController {
         //startPage后紧跟的这个查询就是分页查询
         IPage<Sysuser> PageUsers = userService.getAllUsers(page);
         for(Sysuser user : PageUsers.getRecords()){
-            //user.setRole(user.getRoles().get(0).getName());//用户角色包装 方便处理
+            user.setRole(user.getRoles().get(0).getName());//用户角色包装 方便处理
         }
         Map<String,Object> data = new HashMap<>();
         data.put("code", 0);

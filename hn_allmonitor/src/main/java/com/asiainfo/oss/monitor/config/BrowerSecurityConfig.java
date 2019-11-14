@@ -104,9 +104,9 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public boolean matches(CharSequence charSequence, String s) {
                 if ( !ENCODER.matches(charSequence,s)){
-//                    log.info("{}","密码对不上");
+                    log.info("{}","密码对不上");
                 }else {
-//                    log.info("{}","密码OK");
+                    log.info("{}","密码OK");
                 }
 
 

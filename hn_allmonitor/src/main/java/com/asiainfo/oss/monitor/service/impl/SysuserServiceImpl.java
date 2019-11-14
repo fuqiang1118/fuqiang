@@ -27,11 +27,7 @@ public class SysuserServiceImpl extends ServiceImpl<SysuserMapper, Sysuser> impl
     private SysuserMapper userMapper;
 
     public Sysuser findByUserName(String userName){
-        Sysuser user = new Sysuser();
-        user.setUsername(userName);
-        QueryWrapper<Sysuser> wrapper =  new QueryWrapper<>(user);
-
-        return userMapper.selectOne(wrapper);
+        return userMapper.findByUserName(userName);
     }
 
     public void saveUser(Sysuser user){

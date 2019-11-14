@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,4 +43,13 @@ public class Test1 {
         int insert = sysuserMapper.insert(user);
         System.out.println("受影响的行数为："+insert);
     }
+
+    @Test
+    public void getAllUsers(){
+        List<Sysuser> allUsers = sysuserMapper.getAllUsers();
+        for (Sysuser user:allUsers) {
+            System.out.println(user);
+        }
+    }
+
 }

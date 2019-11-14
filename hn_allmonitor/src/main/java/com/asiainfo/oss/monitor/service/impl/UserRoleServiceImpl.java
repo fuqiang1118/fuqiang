@@ -26,7 +26,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     private UserRoleMapper userRoleMapper;
 
     public boolean  save(UserRole userAndRole){
-        int a = 10/0;
         return userRoleMapper.insert(userAndRole)==0?false:true;
     }
 

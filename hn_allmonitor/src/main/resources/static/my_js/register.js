@@ -84,6 +84,7 @@ layui.use(['form','jquery','layer'], function () {
             success:function(data){
                 if (data.code == 200 ) {
                     layer.alert('注册成功');
+                    location.href="login.html";
                 }else {
                     layer.msg('注册失败');
                 }

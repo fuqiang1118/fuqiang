@@ -28,7 +28,7 @@ import java.util.List;
 @Accessors(chain = true)
 @TableName("SYSUSER")
 @KeySequence(value = "SEQ_BASE_USER_INFO", clazz = Long.class)
-public class Sysuser implements Serializable {
+public class Sysuser implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,6 +47,39 @@ public class Sysuser implements Serializable {
     @TableField("PASSWORD")
     private String password;
 
+    @TableField(exist = false)
+    private List<Role> roles;
 
+    @TableField(exist = false)
+    private String role;
 
+    public Sysuser(String username,String password){
+        this.username = username;
+        this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
