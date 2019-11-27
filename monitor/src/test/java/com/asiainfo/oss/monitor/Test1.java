@@ -1,23 +1,21 @@
 package com.asiainfo.oss.monitor;
 
 import ch.ethz.ssh2.Connection;
-import com.asiainfo.oss.monitor.entity.SysUser;
-import com.asiainfo.oss.monitor.mapper.SysUserMapper;
+import com.asiainfo.oss.monitor.entity.user.SysRoleUser;
+import com.asiainfo.oss.monitor.entity.user.SysUser;
+import com.asiainfo.oss.monitor.mapper.user.SysRoleUserMapper;
+import com.asiainfo.oss.monitor.mapper.user.SysUserMapper;
+import com.asiainfo.oss.monitor.service.user.ISysUserService;
 import com.asiainfo.oss.monitor.uitl.EmailService;
-import com.asiainfo.oss.monitor.uitl.OSUtils;
+import com.asiainfo.oss.monitor.uitl.OSService;
 import com.asiainfo.oss.monitor.uitl.RemoteCommandUtil;
-import org.apache.velocity.runtime.directive.Foreach;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -35,22 +33,26 @@ public class Test1 {
     @Autowired
     private EmailService emailService;
     @Autowired
-    private OSUtils osUtils;
+    private OSService osUtils;
+    @Autowired
+    private ISysUserService userService;
+    @Autowired
+    private SysRoleUserMapper roleUserMapper;
 
     @Test
     public void insertuserid(){
         SysUser user = new SysUser();
         user.setUsername("fuqiang");
         user.setPassword("fuqiang");
-        user.setCreatetime(LocalDateTime.now());
-        user.setUpdatetime(LocalDateTime.now());
+        user.setCreatetime(new Date());
+        user.setUpdatetime(new Date());
         int insert = userMapper.insert(user);
         System.out.println("插入："+insert+"条数据！");
     }
 
     @Test
     public void sendMail(){
-        emailService.sendSimpleEmail("1156517308@qq.com","测试邮件","测试成功！");
+        emailService.sendSimpleEmail(new String[]{"1156517308@qq.com"},"测试邮件","测试成功！");
     }
 
     @Test
@@ -85,40 +87,56 @@ public class Test1 {
         ipList.add(ipMap1);
         ipList.add(ipMap2);
 
-        StringBuffer cpuText = new StringBuffer();
-        StringBuffer memText = new StringBuffer();
-        boolean cpuSign = false;
-        boolean memSign = false;
+        StringBuffer text = new StringBuffer();
+
+        boolean sign = false;
         for (Map map : ipList){
-            osUtils.setIp(map.get("ip").toString());
-            osUtils.setUsername(map.get("username").toString());
-            osUtils.setPassword(map.get("password").toString());
-            float cpuUsage = osUtils.cpuUsage();
+            Connection conn = RemoteCommandUtil.login(map.get("ip").toString(), map.get("username").toString(), map.get("password").toString());
+            float cpuUsage = osUtils.cpuUsage(conn);
             System.out.println(cpuUsage);
-            if(cpuUsage > 10.0 ){
-               cpuSign = true;
-               cpuText.append(map.get("ip").toString()+"  CPU使用率为："+cpuUsage);
+            if(cpuUsage > 0.001 ){
+               sign = true;
+               text.append("\t" + map.get("ip").toString()+"  CPU使用率为：" + cpuUsage + "\r\n");
             }
             //内存使用情况
-            long memoryUsage = osUtils.memoryUsage();
-            if((memoryUsage/1024) < 10){
-                memSign = true;
-                memText.append(map.get("ip").toString()+"  内存使用率为："+memoryUsage);
+            long memoryUsage = osUtils.memoryUsage(conn);
+            if((memoryUsage/1024) < 500){
+                sign = true;
+                text.append("\t" + map.get("ip").toString()+"  内存使用率为："+memoryUsage + "\r\n");
             }
             System.out.println(memoryUsage);
+            RemoteCommandUtil.closeConnection(conn);
         }
 
-        if(cpuSign){
-            emailService.sendSimpleEmail("1156517308@qq.com","服务器cpu使用率过高，请注意查看", "服务器提醒:"+cpuText.toString());
-        }
-
-        if(memSign){
-            emailService.sendSimpleEmail("1156517308@qq.com","服务器cpu使用率过高，请注意查看", "服务器提醒:"+memText.toString());
+        if(sign){
+            emailService.sendSimpleEmail(new String[]{"1156517308@qq.com","wangkj3@asiainfo.com"},"服务器使用率过高，请注意查看", "服务器提醒:" + "\r\n" + text.toString());
         }
 
 
     }
 
+    @Test
+    public void saveUser(){
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername("fuqiang");
+        sysUser.setNickname("fuqiang");
+        sysUser.setPassword("fuqiang22");
+        sysUser.setEmail("fuqiang@qq.com");
+        sysUser.setBirthday(new Date());
+        sysUser.setCreatetime(new Date());
+        sysUser.setUpdatetime(new Date());
+        sysUser.setSex("1");
+        sysUser.setTelephone("18556512118");
+        userService.save(sysUser);
+    }
+
+    @Test
+    public void test1(){
+        SysUser byId = userService.getById(1);
+        System.out.println(byId);
+        SysRoleUser sysRoleUser = roleUserMapper.selectById(1);
+        System.out.println(sysRoleUser);
+    }
 
 
 }

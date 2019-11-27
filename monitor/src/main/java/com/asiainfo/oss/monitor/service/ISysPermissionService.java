@@ -1,6 +1,6 @@
 package com.asiainfo.oss.monitor.service;
 
-import com.asiainfo.oss.monitor.entity.SysPermission;
+import com.asiainfo.oss.monitor.entity.user.SysPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

@@ -43,12 +43,12 @@ public class RemoteCommandUtil {
             conn.connect();//连接
             flg=conn.authenticateWithPassword(userName, userPwd);//认证
             if(flg){
-                System.out.println("=========登录成功========="+conn);
+//                System.out.println("=========登录成功========="+conn);
                 log.info("=========登录成功========="+conn);
                 return conn;
             }
         } catch (IOException e) {
-            System.out.println("=========登录失败========="+e.getMessage());
+//            System.out.println("=========登录失败========="+e.getMessage());
             log.error("=========登录失败========="+e.getMessage());
             e.printStackTrace();
         }
@@ -71,11 +71,11 @@ public class RemoteCommandUtil {
                 result=processStdout(session.getStdout(),DEFAULTCHART);
                 //如果为得到标准输出为空，说明脚本执行出错了
                 if(StringUtils.isBlank(result)){
-                    System.out.println("得到标准输出为空,链接conn:"+conn+",执行的命令："+cmd);
+//                    System.out.println("得到标准输出为空,链接conn:"+conn+",执行的命令："+cmd);
                     log.info("得到标准输出为空,链接conn:"+conn+",执行的命令："+cmd);
                     result=processStdout(session.getStderr(),DEFAULTCHART);
                 }else{
-                    System.out.println("执行命令成功,链接conn:"+conn+",执行的命令："+cmd);
+//                    System.out.println("执行命令成功,链接conn:"+conn+",执行的命令："+cmd);
                     log.info("执行命令成功,链接conn:"+conn+",执行的命令："+cmd);
                 }
                 //conn.close();
@@ -113,7 +113,7 @@ public class RemoteCommandUtil {
         return buffer.toString();
     }
 
-    private static void closeConnection(Connection connection){
+    public static void closeConnection(Connection connection){
 
         try {
             connection.close();
