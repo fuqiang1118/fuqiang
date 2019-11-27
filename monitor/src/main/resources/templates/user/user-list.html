@@ -61,7 +61,7 @@
             var table = layui.table;
             var form = layui.form;
             table.render({
-                eltableem: '#table'
+                elem: '#table'
                 ,url:'/user/getUserList'
                 ,toolbar: '#toolbarDemo'
                 ,request: {
@@ -120,7 +120,7 @@
             //搜索
             form.on('submit(search)', function(data){
                 var username = data.field.username;
-                .render({
+                table.render({
                     elem: '#table'
                     ,url:'/user/findUserByFuzzyUserName'
                     ,toolbar: '#toolbarDemo'
