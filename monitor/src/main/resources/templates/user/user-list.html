@@ -8,6 +8,7 @@
     <body>
         <div class="x-nav">
           <span class="layui-breadcrumb">
+            <a href="">首页</a>
             <a href="">管理员管理</a>
             <a><cite>管理员列表</cite></a>
           </span>
@@ -20,12 +21,6 @@
                     <div class="layui-card">
                         <div class="layui-card-body ">
                             <form class="layui-form layui-col-space5">
-<!--                                <div class="layui-inline layui-show-xs-block">-->
-<!--                                    <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">-->
-<!--                                </div>-->
-<!--                                <div class="layui-inline layui-show-xs-block">-->
-<!--                                    <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">-->
-<!--                                </div>-->
                                 <div class="layui-inline layui-show-xs-block">
                                     <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
                                 </div>
@@ -86,7 +81,7 @@
                         }}
                         ,{field:'createtime', align:'center', title: '登记时间'}
                         ,{field:'updatetime',align:'center',  title: '更新时间'}
-                        ,{title:'操作',align:'center', minWidth:135, toolbar: '#barDemo' }
+                        ,{title:'操作',align:'center', minWidth:135, toolbar: '#barDemo',fixed: 'right' }
                 ]
                 ]
                 ,page: true

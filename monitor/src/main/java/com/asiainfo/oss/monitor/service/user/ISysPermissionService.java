@@ -1,7 +1,11 @@
-package com.asiainfo.oss.monitor.service;
+package com.asiainfo.oss.monitor.service.user;
 
+import com.alibaba.fastjson.JSONArray;
+import com.asiainfo.oss.monitor.base.result.Results;
 import com.asiainfo.oss.monitor.entity.user.SysPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysPermissionService extends IService<SysPermission> {
 
+    JSONArray getAllPermission();
+
+    List<SysPermission> getPermissionByRoleId(Integer id);
 }

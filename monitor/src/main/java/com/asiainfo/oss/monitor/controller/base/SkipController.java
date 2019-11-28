@@ -24,4 +24,14 @@ public class SkipController {
     public String gotoUserPage(@PathVariable String pageName){
         return "user/"+pageName;
     }
+
+    /**
+     * 跳转角色列表页
+     * @param pageName
+     * @return
+     */
+    @RequestMapping("role/{pageName}")
+    public String gotoRolePage(@PathVariable String pageName){
+        return "role/"+pageName;
+    }
 }

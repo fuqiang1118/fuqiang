@@ -139,7 +139,7 @@ public class SysUserController {
     }
 
     /**
-     * 删除管理员
+     * 批量删除管理员
      * @param ids
      * @return
      */
