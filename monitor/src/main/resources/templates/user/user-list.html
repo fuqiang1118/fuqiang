@@ -145,7 +145,7 @@
                             }}
                             ,{field:'createtime', align:'center', title: '登记时间'}
                             ,{field:'updatetime',align:'center',  title: '更新时间'}
-                            ,{title:'操作',align:'center', minWidth:135, toolbar: '#barDemo' }
+                            ,{title:'操作',align:'center', minWidth:135, toolbar: '#barDemo',fixed: 'right' }
                         ]
                     ]
                 });
@@ -180,7 +180,7 @@
                         });
                         break;
                     case 'addUser':
-                        xadmin.open('添加用户','add',600,400);
+                        xadmin.open('添加用户','/user/add',600,400);
                         break;
                 };
             });

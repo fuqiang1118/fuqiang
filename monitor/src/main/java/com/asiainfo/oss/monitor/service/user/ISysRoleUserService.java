@@ -13,5 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysRoleUserService extends IService<SysRoleUser> {
 
+    /**
+     * 根据用户id查询角色信息
+     * @param userId
+     * @return
+     */
     SysRoleUser getByUserId(Integer userId);
 }

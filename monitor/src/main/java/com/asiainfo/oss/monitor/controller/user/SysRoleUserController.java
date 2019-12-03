@@ -28,6 +28,11 @@ public class SysRoleUserController {
     @Autowired
     private ISysRoleUserService roleUserService;
 
+    /**
+     * 根据用户id查询角色id
+     * @param userId
+     * @return
+     */
     @PostMapping("/getRoleUserByUserId")
     public Results getRoleUserByUserId(Integer userId) {
         log.info("SysRoleUserController.getRoleUserByUserId----param = " + userId);

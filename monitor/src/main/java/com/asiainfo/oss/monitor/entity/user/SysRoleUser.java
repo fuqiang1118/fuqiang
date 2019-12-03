@@ -23,10 +23,10 @@ public class SysRoleUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    @TableField("USERID")
+    @TableField("USERID")
     private Long userid;
 
-//    @TableField("ROLEID")
+    @TableField("ROLEID")
     private Long roleid;
 
 

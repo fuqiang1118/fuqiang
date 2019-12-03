@@ -1,7 +1,5 @@
 package com.asiainfo.oss.monitor.service.user.impl;
 
-import com.asiainfo.oss.monitor.base.result.ResponseCode;
-import com.asiainfo.oss.monitor.base.result.Results;
 import com.asiainfo.oss.monitor.dto.RoleDto;
 import com.asiainfo.oss.monitor.entity.user.SysRole;
 import com.asiainfo.oss.monitor.entity.user.SysRolePermission;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -121,7 +121,7 @@ function getCheckedMenuIds(){
 function createNode(d,noShowBtn) {
 
 	var id = d['id'];
-	var pId = d['parentId'];
+	var pId = d['parentid'];
 	var name = d['name'];
 	var child = d['child'];
 

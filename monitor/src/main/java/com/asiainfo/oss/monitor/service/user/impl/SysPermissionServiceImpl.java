@@ -40,4 +40,24 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     public List<SysPermission> getPermissionByRoleId(Integer roleId) {
         return permissionMapper.getPermissionByRoleId(roleId);
     }
+
+    @Override
+    public List<SysPermission> getMenuAll() {
+        return permissionMapper.selectList(null);
+    }
+
+    @Override
+    public SysPermission getSysPermissionById(Long id) {
+        return permissionMapper.selectById(id);
+    }
+
+    @Override
+    public boolean deletePermission(Long id) {
+        /**删除自己*/
+        int deleteNum = permissionMapper.deleteById(id);
+        /**删除下面的所有的子类菜单*/
+        int deletePNum = permissionMapper.deleteByParentId(id);
+        return deleteNum > 0 ? true : false;
+    }
+
 }

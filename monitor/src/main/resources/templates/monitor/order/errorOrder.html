@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>错单监控</title>
+    <header th:replace="header::html"></header>
+    <script type="text/javascript" th:src="@{/echarts/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/echarts/henan.js}"></script>
+</head>
+
+<body>
+<div id="main" style="height:600px;"></div>
+
+</body>
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+    myChart.showLoading();
+    myChart.hideLoading();
+    myChart.setOption(option = {
+        title: {
+            text: '河南家客错单监控'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c} (笔)'
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {readOnly: false},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        visualMap: {
+            min: 0,
+            max: 5000,
+            text:['High','Low'],
+            realtime: false,
+            calculable: true,
+            inRange: {
+                color: ['lightskyblue','yellow', 'orangered']
+            }
+        },
+        series: [
+            {
+                name: '河南家客错单监控',
+                type: 'map',
+                mapType: '河南', // 自定义扩展图表类型
+                itemStyle:{
+                    normal:{label:{show:true}},
+                    emphasis:{label:{show:true}}
+                },
+                data:[
+                    {name: '郑州市', value: 5000},
+                    {name: '开封市', value: 2000},
+                    {name: '洛阳市', value: 3300},
+                    {name: '平顶山市', value: 2000},
+                    {name: '安阳市', value: 1000},
+                    {name: '鹤壁市', value: 4000},
+                    {name: '新乡市', value: 1200},
+                    {name: '焦作市', value: 300},
+                    {name: '濮阳市', value: 5000},
+                    {name: '许昌市', value: 800},
+                    {name: '漯河市', value: 4900},
+                    {name: '三门峡市', value: 810},
+                    {name: '南阳市', value: 2099},
+                    {name: '商丘市', value: 3800},
+                    {name: '信阳市', value: 1800},
+                    {name: '周口市', value: 560},
+                    {name: '驻马店市', value: 3368},
+                    {name: '济源市', value: 849}
+                ]
+            }
+        ]
+    });
+
+    myChart.on('click', function (params) {
+        var city = params.name;
+        var num = params.value;
+        alert(city+":"+num+"笔错单");
+    });
+</script>
+</html>

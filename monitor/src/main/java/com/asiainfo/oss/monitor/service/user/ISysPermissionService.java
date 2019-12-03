@@ -17,7 +17,36 @@ import java.util.List;
  */
 public interface ISysPermissionService extends IService<SysPermission> {
 
+    /**
+     * 获取所有权限
+     * @return
+     */
     JSONArray getAllPermission();
 
-    List<SysPermission> getPermissionByRoleId(Integer id);
+    /**
+     * 根据角色id获取权限列表
+     * @param roleId
+     * @return
+     */
+    List<SysPermission> getPermissionByRoleId(Integer roleId);
+
+    /**
+     * 获取所有菜单
+     * @return
+     */
+    List<SysPermission> getMenuAll();
+
+    /**
+     * 根据权限ID获取菜单权限信息
+     * @param id
+     * @return
+     */
+    SysPermission getSysPermissionById(Long id);
+
+    /**
+     * 删除菜单权限
+     * @param id
+     * @return
+     */
+    boolean deletePermission(Long id);
 }

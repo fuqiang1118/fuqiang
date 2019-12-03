@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @program: monitor
@@ -13,25 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date: 2019-11-18 10:10
  **/
 @Controller
+@RequestMapping("skip")
 public class SkipController {
 
-    /**
-     * 跳转管理员列表页
-     * @param pageName
-     * @return
-     */
-    @RequestMapping("user/{pageName}")
-    public String gotoUserPage(@PathVariable String pageName){
-        return "user/"+pageName;
+    @RequestMapping(value="/getPage")
+    public ModelAndView getPage(ModelAndView modelAndView, String pageName){
+        modelAndView.setViewName(pageName);
+        return modelAndView;
     }
 
-    /**
-     * 跳转角色列表页
-     * @param pageName
-     * @return
-     */
-    @RequestMapping("role/{pageName}")
-    public String gotoRolePage(@PathVariable String pageName){
-        return "role/"+pageName;
-    }
 }
