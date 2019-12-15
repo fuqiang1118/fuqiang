@@ -1,18 +1,17 @@
 package com.asiainfo.oss.monitor.service.user.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.asiainfo.oss.monitor.base.result.Results;
 import com.asiainfo.oss.monitor.entity.user.SysPermission;
 import com.asiainfo.oss.monitor.mapper.user.SysPermissionMapper;
 import com.asiainfo.oss.monitor.service.user.ISysPermissionService;
 import com.asiainfo.oss.monitor.uitl.TreeUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -58,6 +57,17 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         /**删除下面的所有的子类菜单*/
         int deletePNum = permissionMapper.deleteByParentId(id);
         return deleteNum > 0 ? true : false;
+    }
+
+    @Override
+    public JSONArray getMenu(Long userId) {
+        List<SysPermission> datas = permissionMapper.listMenuByUserId(userId);
+        //去除按钮
+        datas = datas.stream().filter(p -> p.getType().equals("1")).collect(Collectors.toList());
+
+        JSONArray array = new JSONArray();
+        TreeUtils.setPermissionsTree(0, datas, array);
+        return array;
     }
 
 }

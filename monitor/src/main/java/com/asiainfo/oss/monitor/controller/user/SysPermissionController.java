@@ -8,6 +8,7 @@ import com.asiainfo.oss.monitor.entity.user.SysPermission;
 import com.asiainfo.oss.monitor.service.user.ISysPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class SysPermissionController {
      * @return
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('sys:menu:add')")
     public String addPermission(Model model) {
         model.addAttribute("sysPermission",new SysPermission());
         return "permission/permission-add";
@@ -47,6 +49,7 @@ public class SysPermissionController {
      * @return
      */
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('sys:menu:edit')")
     public String editPermission(Model model, SysPermission permission) {
         model.addAttribute("sysPermission",permissionService.getSysPermissionById(permission.getId()));
         return "permission/permission-add";
@@ -95,6 +98,7 @@ public class SysPermissionController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:add')")
     public Results<SysPermission> savePermission(@RequestBody SysPermission permission) {
         log.info("SysPermissionController.savePermission----params:SysPermission" + permission);
         boolean result = permissionService.save(permission);
@@ -108,6 +112,7 @@ public class SysPermissionController {
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:edit')")
     public Results updatePermission(@RequestBody  SysPermission permission) {
         log.info("SysPermissionController.updatePermission----params:SysPermission" + permission);
         boolean result = permissionService.updateById(permission);
@@ -121,9 +126,24 @@ public class SysPermissionController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:del')")
     public Results deletePermission(SysPermission sysPermission) {
         log.info("SysPermissionController.deletePermission----params:SysPermission" + sysPermission);
         boolean result = permissionService.deletePermission(sysPermission.getId());
         return result ? Results.success() : Results.failure();
+    }
+
+    /**
+     * 根据用户id获取菜单
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/menu", method = RequestMethod.GET)
+    @ResponseBody
+    public Results<JSONArray> getMenu(Long userId) {
+        log.info("SysPermissionController.getMenu----params:userId" + userId);
+        JSONArray allPermission = permissionService.getMenu(userId);
+        log.debug("SysPermissionController.getMenu----success:" + allPermission);
+        return Results.success(allPermission);
     }
 }

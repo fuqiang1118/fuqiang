@@ -3,6 +3,7 @@ package com.asiainfo.oss.monitor.mapper.user;
 import com.asiainfo.oss.monitor.entity.user.SysPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -22,4 +23,13 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
     @Delete("delete from sys_permission where parentId = #{parentId}")
     int deleteByParentId(Long parentId);
+
+
+    @Select("SELECT DISTINCT sp.*  " +
+            "FROM sys_role_user sru " +
+            "INNER JOIN sys_role_permission srp ON srp.roleId = sru.roleId " +
+            "LEFT JOIN sys_permission sp ON srp.permissionId = sp.id " +
+            "WHERE " +
+            "sru.userId = #{userId}")
+    List<SysPermission> listMenuByUserId(@Param("userId") Long userId);
 }

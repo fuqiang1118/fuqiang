@@ -1,5 +1,6 @@
 package com.asiainfo.oss.monitor.service.user;
 
+import com.asiainfo.oss.monitor.base.result.Results;
 import com.asiainfo.oss.monitor.entity.user.SysUser;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -59,4 +60,27 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     boolean deleteAllUserById(Integer[] ids);
+
+    /**
+     * 根据用户名查询用户信息
+     * @param username
+     * @return
+     */
+    SysUser getUserByUserName(String username);
+
+    /**
+     * 根据用户信息查询用户信息
+     * @param phone
+     * @return
+     */
+    SysUser getUserByPhone(String phone);
+
+    /**
+     * 根据用户email查询用户信息
+     * @param email
+     * @return
+     */
+    SysUser getUserByEmail(String email);
+
+    Results<SysUser> changePassword(String username, String oldPassword, String newPassword);
 }

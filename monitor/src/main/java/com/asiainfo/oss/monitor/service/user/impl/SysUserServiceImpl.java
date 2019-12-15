@@ -1,5 +1,6 @@
 package com.asiainfo.oss.monitor.service.user.impl;
 
+import com.asiainfo.oss.monitor.base.result.Results;
 import com.asiainfo.oss.monitor.entity.user.SysRole;
 import com.asiainfo.oss.monitor.entity.user.SysRoleUser;
 import com.asiainfo.oss.monitor.entity.user.SysUser;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,5 +95,40 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return (delUserNum >= size && deleteRoleUserNum >= size) ? true : false;
     }
 
+    @Override
+    public SysUser getUserByUserName(String username) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("USERNAME",username);
+        return userMapper.selectOne(wrapper);
+    }
 
+    @Override
+    public SysUser getUserByPhone(String phone) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("PHONE",phone);
+        return userMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public SysUser getUserByEmail(String email) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("EMAIL",email);
+        return userMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public Results<SysUser> changePassword(String username, String oldPassword, String newPassword) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("USERNAME",username);
+        SysUser u =  userMapper.selectOne(wrapper);
+        if (u == null) {
+            return Results.failure(1,"用户不存在");
+        }
+
+        if (!new BCryptPasswordEncoder().matches(oldPassword,u.getPassword())) {
+            return Results.failure(1,"旧密码错误");
+        }
+        userMapper.changePassword(u.getId(), new BCryptPasswordEncoder().encode(newPassword));
+        return Results.success();
+    }
 }

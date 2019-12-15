@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -44,12 +45,14 @@ public class SysRoleController {
      * @return
      */
     @GetMapping("/add")
+    @PreAuthorize("hasAuthority('sys:role:add')")
     public String addUser(Model model) {
         model.addAttribute("sysRole",new SysRole());
         return "role/role-add";
     }
 
     @GetMapping(value = "/edit")
+    @PreAuthorize("hasAuthority('sys:role:edit')")
     public String editRole(Model model, SysRole role) {
         model.addAttribute("sysRole",roleService.getById(role.getId()));
         return "role/role-edit";
@@ -89,6 +92,7 @@ public class SysRoleController {
      */
     @PostMapping("/addRole")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:add')")
     public Results addRole(@RequestBody RoleDto roleDto){
         log.info("SysRoleController.addRole----params：roleDto:" + roleDto.toString());
         roleDto.setCreatetime(new Date());
@@ -108,6 +112,7 @@ public class SysRoleController {
      */
     @PostMapping(value = "/editRole")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:edit')")
     public Results updateRole(@RequestBody RoleDto roleDto) {
         log.info("SysRoleController.updateRole----params：roleDto:" + roleDto.toString());
         return roleService.updateRole(roleDto) ? Results.success() : Results.failure();
@@ -120,6 +125,7 @@ public class SysRoleController {
      */
     @GetMapping(value = "/delete")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:del')")
     public Results<SysRole> deleteRole(RoleDto roleDto) {
         log.info("SysRoleController.deleteRole----params：roleDto:" + roleDto.toString());
         return roleService.deleteRole(roleDto.getId()) ?
@@ -133,6 +139,7 @@ public class SysRoleController {
      */
     @PostMapping("/deleteAll")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:del')")
     public Results deleteAllUser(Integer[] ids){
         log.info("SysRoleController.deleteAllUser----params：ids:" + ids);
         StringBuilder result = roleService.deleteAllUserById(ids);
@@ -152,6 +159,7 @@ public class SysRoleController {
      */
     @GetMapping("/findRoleByFuzzyRoleName")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:role:query')")
     public Results findRoleByFuzzyRoleName(int currentPage, int limit, String roleName) {
         log.info("SysRoleController.findRoleByFuzzyRoleName----params:currentPage:" + currentPage + ";limit:" + limit + ";roleName:" + roleName);
         //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录

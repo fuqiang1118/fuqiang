@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>定单监控</title>
+    <header th:replace="header::html"></header>
+    <script type="text/javascript" th:src="@{/echarts/echarts.min.js}"></script>
+    <script type="text/javascript" th:src="@{/echarts/henan.js}"></script>
+</head>
+
+<body>
+<div id="main" style="height:600px;background-color: #051b4a;"></div>
+
+</body>
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+    myChart.showLoading();
+    myChart.hideLoading();
+    myChart.setOption(option =
+        {
+            title: {
+                text: '河南家客日定单监控',
+                textStyle: {color:'#fff'}
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}<br/>{c} (笔)'
+            },
+            legend: {
+                orient: 'horizontal',//图例的排列方向
+                textStyle: {color:'#fff'},
+                x:'left',//图例的位置
+                y:'20',
+                data:['河南']
+            },
+            toolbox: {
+                show: true,
+                orient: 'vertical',
+                left: 'right',
+                top: 'center',
+                feature: {
+                    dataView: {readOnly: false},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            visualMap: {//颜色的设置  dataRange
+                textStyle: {color:'#fff'},
+                x: 'left',
+                y: 'bottom',
+                splitList: [
+                    {start: 1500},{start: 900, end: 1500},
+                    {start: 310, end: 1000},{start: 200, end: 300},
+                    {start: 50, end: 200},{start: 0, end: 50},
+                ],
+                // text:['高','低'],// 文本，默认为数值文本
+                // color: ['#65A2D9', '#E09107', '#A3E00B']
+                color: ['#5475f5', '#9feaa5', '#3FA7FF','#66E0E3', '#FFDC5E', '#9fb5ea'],
+                show:true//图注
+            },
+
+            // roamController: {//控制地图的上下左右放大缩小
+            //     show: true,
+            //     x: 'right',
+            //     mapTypeControl: {
+            //         'china': true
+            //     }
+            // },
+            series : [
+                {
+                    name: '河南家客定单监控',
+                    type: 'map',
+                    mapType: '河南',
+                    zoom: 1.1,
+                    roam: false,//是否开启鼠标缩放和平移漫游
+                    itemStyle:{//地图区域的多边形 图形样式
+                        normal:{//是图形在默认状态下的样式
+                            label:{
+                                show: true,
+                                textStyle: {color: "rgb(249, 249, 249)"}
+                            }
+                        },
+                        emphasis:{//是图形在高亮状态下的样式,比如在鼠标悬浮或者图例联动高亮时
+                            areaColor: '#b8f3ee',
+                            label:{show:true}
+                        }
+                    },
+                    top:"100",//组件距离容器的距离
+                    data:[
+                        {name: '郑州市', value: 500},
+                        {name: '开封市', value: 2000},
+                        {name: '洛阳市', value: 3300},
+                        {name: '平顶山市', value: 2000},
+                        {name: '安阳市', value: 1000},
+                        {name: '鹤壁市', value: 4000},
+                        {name: '新乡市', value: 1200},
+                        {name: '焦作市', value: 300},
+                        {name: '濮阳市', value: 500},
+                        {name: '许昌市', value: 800},
+                        {name: '漯河市', value: 900},
+                        {name: '三门峡市', value: 810},
+                        {name: '南阳市', value: 2099},
+                        {name: '商丘市', value: 800},
+                        {name: '信阳市', value: 100},
+                        {name: '周口市', value: 560},
+                        {name: '驻马店市', value: 368},
+                        {name: '济源市', value: 849}
+                    ]
+                }
+            ]
+        }
+    );
+
+    window.addEventListener("resize", function() {
+        myChart.resize();
+    });
+
+    myChart.on('click', function (params) {
+        var city = params.name;
+        var num = params.value;
+        alert(city+":"+num+"笔");
+    });
+</script>
+</html>

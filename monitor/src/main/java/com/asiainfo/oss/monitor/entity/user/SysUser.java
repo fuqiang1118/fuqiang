@@ -60,7 +60,7 @@ public class SysUser implements Serializable {
     private String sex;
 
     @TableField("STATUS")
-    private String status;
+    private Integer status;
 
     @TableField("CREATETIME")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -70,5 +70,9 @@ public class SysUser implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatetime;
 
-
+    public interface Status {
+        int DISABLED = 0;
+        int VALID = 1;
+        int LOCKED = 2;
+    }
 }

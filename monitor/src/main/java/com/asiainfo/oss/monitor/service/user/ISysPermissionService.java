@@ -49,4 +49,11 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @return
      */
     boolean deletePermission(Long id);
+
+    /**
+     * 根据用户id获取菜单
+     * @param userId
+     * @return
+     */
+    JSONArray getMenu(Long userId);
 }

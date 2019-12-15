@@ -1,6 +1,8 @@
 package com.asiainfo.oss.monitor;
 
 import ch.ethz.ssh2.Connection;
+import com.asiainfo.oss.monitor.controller.user.SysUserController;
+import com.asiainfo.oss.monitor.dto.UserDto;
 import com.asiainfo.oss.monitor.entity.user.SysRoleUser;
 import com.asiainfo.oss.monitor.entity.user.SysUser;
 import com.asiainfo.oss.monitor.mapper.user.SysRoleUserMapper;
@@ -13,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -38,6 +41,8 @@ public class Test1 {
     private ISysUserService userService;
     @Autowired
     private SysRoleUserMapper roleUserMapper;
+
+    private SysUserController sysUserController;
 
     @Test
     public void insertuserid(){
@@ -120,7 +125,7 @@ public class Test1 {
         SysUser sysUser = new SysUser();
         sysUser.setUsername("fuqiang");
         sysUser.setNickname("fuqiang");
-        sysUser.setPassword("fuqiang22");
+        sysUser.setPassword(new BCryptPasswordEncoder().encode("fuqiang22"));
         sysUser.setEmail("fuqiang@qq.com");
         sysUser.setBirthday(new Date());
         sysUser.setCreatetime(new Date());
@@ -136,6 +141,19 @@ public class Test1 {
         System.out.println(byId);
         SysRoleUser sysRoleUser = roleUserMapper.selectById(1);
         System.out.println(sysRoleUser);
+    }
+
+    @Test
+    public void saveUserByController(){
+        UserDto sysUser = new UserDto();
+        sysUser.setUsername("fuqiang");
+        sysUser.setNickname("fuqiang");
+        sysUser.setPassword("000000");
+        sysUser.setEmail("fuqiang@qq.com");
+        sysUser.setSex("1");
+        sysUser.setTelephone("18556512118");
+        sysUser.setPhone("18556512118");
+        sysUserController.addUser( sysUser,1);
     }
 
 
